@@ -190,6 +190,7 @@ class LaneLines:
         return out_img
 
     def plot(self, out_img):
+        output_ = {}
         np.set_printoptions(precision=6, suppress=True)
         lR, rR, pos = self.measure_curvature()
 
@@ -235,8 +236,10 @@ class LaneLines:
             out_img[y, x-100+W//2] = self.keep_straight_img[y, x, :3]
 
         cv2.putText(out_img, msg, org=(10, 240), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
+        output_["msg"] = msg
         if direction in 'LR':
             cv2.putText(out_img, curvature_msg, org=(10, 280), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(255, 255, 255), thickness=2)
+            output_["curvature_msg"] = curvature_msg
 
         cv2.putText(
             out_img,
@@ -246,6 +249,7 @@ class LaneLines:
             fontScale=1.2,
             color=(0, 255, 0),
             thickness=2)
+        output_["status_msg"] = "Good Lane Keeping"
 
         cv2.putText(
             out_img,
@@ -255,8 +259,9 @@ class LaneLines:
             fontScale=0.66,
             color=(255, 255, 255),
             thickness=2)
+        output_["distance_msg"] = "Vehicle is {:.2f} m away from center".format(pos)
 
-        return out_img
+        return out_img, output_
 
     def measure_curvature(self):
         ym = 30/720
