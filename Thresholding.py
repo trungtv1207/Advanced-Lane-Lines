@@ -38,7 +38,7 @@ class Thresholding:
         right_lane = threshold_rel(l_channel, 0.8, 1.0)
         right_lane[:,:750] = 0
 
-        left_lane = threshold_abs(h_channel, 20, 30)
+        left_lane = threshold_abs(h_channel, 10, 100)
         left_lane &= threshold_rel(v_channel, 0.7, 1.0)
         left_lane[:,550:] = 0
 
